@@ -1,0 +1,59 @@
+import requests
+from bs4 import BeautifulSoup
+from pymongo import MongoClient
+client = MongoClient('localhost', 27017)
+db = client.db_delicious
+
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+
+data = requests.get('https://www.mangoplate.com/search/%EA%B0%95%EB%82%A8%EC%97%AD?keyword=%EA%B0%95%EB%82%A8%EC%97%AD&page=1', headers=headers)
+soup = BeautifulSoup(data.text, 'html.parser')
+
+# print(soup)
+# charts = soup.select('body > section > ul')
+# print(charts[0])
+# name = charts[0].select_one('div.info > a').text
+# print(name)
+# for chart in charts:
+#     name = chart.select_one('div.info > a').text.strip()
+#     area = chart.select_one('div.info > p').text[0:6].strip()
+#     food_type = chart.select_one('div.info > p > span').text
+#     point=chart.select_one('div.info > strong').text.strip()
+#     chart_data = {"name": name, "area": area, "food_type": food_type}
+#     db.charts.insert_one(chart_data)
+#     print(name, area, food_type)
+    # print(name)
+
+
+
+# 상호명
+items = soup.select("body > main > article > div.column-wrapper > div > div > section > div.search-list-restaurants-inner-wrap > ul > li")
+# first_div = first
+for item in items:
+    divs = item.select("div")
+    for div in divs:
+        rest = div.select_one("figure > figcaption > div > a")
+        print(rest)
+
+#점수
+
+
+# body > main > article > div.column-wrapper > div > div > section > div.search-list-restaurants-inner-wrap > ul > li:nth-child(1) > div:nth-child(1) > figure > figcaption > div > a > h2
+# body > main > article > div.column-wrapper > div > div > section > div.search-list-restaurants-inner-wrap > ul > li:nth-child(1) > div:nth-child(2) > figure > figcaption > div > a > h2
+# body > main > article > div.column-wrapper > div > div > section > div.search-list-restaurants-inner-wrap > ul > li:nth-child(2) > div:nth-child(1) > figure > figcaption > div > a > h2
+# body > main > article > div.column-wrapper > div > div > section > div.search-list-restaurants-inner-wrap > ul > li:nth-child(2) > div:nth-child(2) > figure > figcaption > div > a > h2
+# body > main > article > div.column-wrapper > div > div > section > div.search-list-restaurants-inner-wrap > ul > li:nth-child(3) > div:nth-child(1) > figure > figcaption > div > a > h2
+#contents_list > ul > li:nth-child(1) > div > figure > figcaption > div > span > a > h3
+# 지역명
+# body > main > article > div.column-wrapper > div > div > section > div.search-list-restaurants-inner-wrap > ul > li:nth-child(1) > div:nth-child(1) > figure > figcaption > div > p.etc
+# body > main > article > div.column-wrapper > div > div > section > div.search-list-restaurants-inner-wrap > ul > li:nth-child(1) > div:nth-child(2) > figure > figcaption > div > p.etc
+
+#body-content > div.newest-list > div > table > tbody > tr:nth-child(1) > td.info > a.title.ellipsis
+
+#상호명
+# body > main > article > div.column-wrapper > div > div > section > div.search-list-restaurants-inner-wrap > ul > li:nth-child(1) > div:nth-child(1) > figure > figcaption > div > a > span > span
+# body > main > article > div.column-wrapper > div > div > section > div.search-list-restaurants-inner-wrap > ul > li:nth-child(1) > div:nth-child(2) > figure > figcaption > div > a > span
+# body > main > article > div.column-wrapper > div > div > section > div.search-list-restaurants-inner-wrap > ul > li:nth-child(2) > div:nth-child(1) > figure > figcaption > div > a > span
+# body > main > article > div.column-wrapper > div > div > section > div.search-list-restaurants-inner-wrap > ul > li:nth-child(2) > div:nth-child(2) > figure > figcaption > div > a > span
+# body > main > article > div.column-wrapper > div > div > section > div.search-list-restaurants-inner-wrap > ul > li:nth-child(3) > div:nth-child(1) > figure > figcaption > div > a > span
